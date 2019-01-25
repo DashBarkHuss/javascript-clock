@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Clock</title>
+
+</head>
+<body>
+    <time id="clock"></time>
+    <canvas id="clockFace" width="300" height="300"></canvas>
+    <script>
+    //variables
+    var time = new Date();
+    var clock = document.getElementById("clock");
+    clock.innerHTML = time;
+
+    var s = time.getSeconds();
+    var m = time.getMinutes();
+    var h = time.getHours();
+    var h12 = h>12? h-12 : h;
+    var meridiem = h>12? "p" : "h";
+
+    //circle 
+    var clockFace = document.getElementById("clockFace");
+    var ctx = clockFace.getContext("2d");
+    
+    ctx.beginPath();
+    ctx.arc(150, 150, 140, 0 , 2 * Math.PI)
+    ctx.stroke();
+
+    //calculate position of hands
+    
+    function getCircleXY(radians, radius) {
+        var y = 150+Math.sin(radians) * radius;
+        var x = 150+Math.cos(radians) * radius;
+        return {
+            "x": x,
+            "y": y
+        }
+    }
+
+    //hands
+    //convert to radians
+    var getRadians = (d)=>{
+        return d*Math.PI/180;
+    };
+     //hour hand
+     // degree
+    function hourHand(){
+        var degree = h12*30 + (m/60)*30 -90;
+        var r = getRadians(degree)
+        var hour = getCircleXY(r, 80);
+        return hour;
+    }
+    
+
+    ctx.moveTo(150,150);
+    ctx.lineTo(hourHand().x, hourHand().y);
+    //minute hand
+    function minuteHand(){
+        var degree =(m/60)*360-90;
+
+        var r = getRadians(degree);
+        var minute = getCircleXY(r,120);
+        return minute;
+    }
+    ctx.moveTo(150,150);
+    ctx.lineTo(minuteHand().x, minuteHand().y);//100px
+    ctx.stroke();
+
+    //animate clock
+
+
+    
+        
+        </script>
+</body>
+</html>

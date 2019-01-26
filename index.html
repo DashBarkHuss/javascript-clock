@@ -34,7 +34,7 @@
     
     ctx.beginPath();
     ctx.arc(150, 150, 140, 0 , 2 * Math.PI)
-    ctx.fillStyle = '#fff';
+    ctx.fillStyle = color;
     ctx.fill()
     ctx.stroke();
 
@@ -91,12 +91,24 @@
     //draw
     ctx.stroke();
 }
+    
+    
     //animate clock
-
-    setInterval(updateClock, 1000);
     $.getJSON('http://api.openweathermap.org/data/2.5/uvi?appid=02be53a61408b7e8b7cfe7dfae98a098&lat=26.93&lon=82.05', function(data){
+        sky(data.value);
         console.log(data.value);
+        setInterval(updateClock, 1000);
+        console.log(color);
     });
+    //get clock color
+    let color;
+    const sky = (uv)=>{
+        color = 'hsl(180,'+(uv*5)+'%,70%)';
+        return color;
+    };
+    
+
+    
     
     
         </script>

@@ -11,6 +11,8 @@
     <time id="clock"></time>
     <canvas id="clockFace" width="300" height="300"></canvas>
     <script>
+    //update clock function
+    function updateClock(){
     //variables
     var time = new Date();
     var clock = document.getElementById("clock");
@@ -28,6 +30,8 @@
     
     ctx.beginPath();
     ctx.arc(150, 150, 140, 0 , 2 * Math.PI)
+    ctx.fillStyle = '#fff';
+    ctx.fill()
     ctx.stroke();
 
     //calculate position of hands
@@ -63,18 +67,30 @@
         var degree =(m/60)*360-90;
 
         var r = getRadians(degree);
-        var minute = getCircleXY(r,120);
+        var minute = getCircleXY(r,100);
         return minute;
     }
     ctx.moveTo(150,150);
     ctx.lineTo(minuteHand().x, minuteHand().y);//100px
-    ctx.stroke();
+    //second hand
+    function secondHand(){
+        var degree =(s/60)*360-90;
 
-    //animate clock
-
+        var r = getRadians(degree);
+        var second = getCircleXY(r,120);
+        return second;
+    }
+    ctx.moveTo(150,150);
+    ctx.lineTo(secondHand().x, secondHand().y);//100px
 
     
-        
+    //draw
+    ctx.stroke();
+}
+    //animate clock
+
+    setInterval(updateClock, 1000);
+    
         </script>
 </body>
 </html>
